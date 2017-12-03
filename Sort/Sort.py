@@ -88,6 +88,89 @@ def insert_sort(list):
             list[index] = temp
     return list
 
+def insert_sort2(lists):
+    """
+        插入排序
+    :param lists:
+    :return:
+    """
+    # 插入排序
+    count = len(lists)
+    # 每次遍历已经排好序的部分，生成结果。
+    for i in range(1, count):
+        # 记录当前元素
+        key = lists[i]
+        j = i - 1
+        # 从已经排好序的元素开始，遍历当前元素应该插入到哪一个
+        while j >= 0:
+            if lists[j] > key:
+                lists[j + 1] = lists[j]
+                lists[j] = key
+            j -= 1
+    return lists
+
+# def insert_sort3(lists):
+#     count = len(lists)
+#     for i in range(1, count):
+#         # 记录当前元素
+#         key = lists[i]
+#         j = i - 1
+#         while j >= 0:
+#             if lists[j] > key:
+#                 lists[j+1] = lists[j]
+#                 lists[j] = key
+#             j -= 1
+#     return lists
+
+
+
+def shell_sort(lists):
+    """
+        希尔排序，每次以一定的步长（跳过等距的数）进行排序，直至步长为1.
+    :param list:
+    :return:
+    """
+    n = len(lists)
+    # 初始步长
+    gap = round(n/2)
+    while gap > 0:
+        for i in range(gap, n):
+            # 每个步长进行插入排序
+            temp = lists[i]
+            j = i
+            # 插入排序
+            # while j >= gap and list[j - gap] > temp:
+            #     list[j] = list[j - gap]
+            while j >= gap and lists[j - gap] > temp:
+                lists[j] = lists[j - gap]
+                j -= gap
+            lists[j] = temp
+        # 得到新的步长
+        gap = round(gap / 2)
+    return lists
+
+# def shell_sort(lists):
+#     """
+#     希尔排序, 每次以一定的步长（跳过等距的数）进行排序，直到步长为1
+#     :param lists:
+#     :return:
+#     """
+#     n = len(lists)
+#     # 初始步长
+#     gap = round(n/2)
+#     while gap > 0:
+#         for i in range(gap, n):
+#             # 每个步长进行插入排序
+#             temp = lists[i]
+#             j = i
+#             # 插入排序
+#             while j >= gap and lists[j - gap] > temp:
+#                 lists[j] = lists[j - gap]
+#                 j -= gap
+#             lists[j] = temp
+#         # 得到新的步长
+#         gap = round(gap/2)
+#     return lists
 
 
 
@@ -103,3 +186,6 @@ if __name__ == "__main__":
     print("selection sort")
     print(bubble_sort_flag(lists))
     print("insert sort")
+    print(insert_sort2(lists))
+
+
