@@ -149,29 +149,115 @@ def shell_sort(lists):
         gap = round(gap / 2)
     return lists
 
-# def shell_sort(lists):
-#     """
-#     希尔排序, 每次以一定的步长（跳过等距的数）进行排序，直到步长为1
-#     :param lists:
-#     :return:
-#     """
-#     n = len(lists)
-#     # 初始步长
-#     gap = round(n/2)
-#     while gap > 0:
-#         for i in range(gap, n):
-#             # 每个步长进行插入排序
-#             temp = lists[i]
-#             j = i
-#             # 插入排序
-#             while j >= gap and lists[j - gap] > temp:
-#                 lists[j] = lists[j - gap]
-#                 j -= gap
-#             lists[j] = temp
-#         # 得到新的步长
-#         gap = round(gap/2)
-#     return lists
+# 递归方法实现归并排序
+def merge_sort(lists):
+    # 认为长度不大于1的数列是有序的
+    if len(lists) <= 1:
+        return lists
+    # 二分列表
+    middle = len(lists) // 2
+    left = merge_sort(lists[:middle])
+    right = merge_sort(lists[middle:])
+    # 最后一次合并
+    return merge(left, right)
 
+# 合并
+def merge(left, right):
+    l,r=0,0
+    result=[]
+    while l<len(left) and r<len(right):
+        if left[l] <right[r]:
+            result.append(left[l])
+            l += 1
+        else:
+            result.append(right[r])
+            r += 1
+        # print(l,r)
+    result += left[l:]
+    result += right[r:]
+    return result
+
+# 迭代方法实现归并排序
+def merge_sort2(lists):
+    length = len(lists)
+    step = 1
+    # 步长为1, 2, 4, 8, ..., 一直合并下去
+    while step <= length:
+        offset = step << 1
+        for index in range(0, length, offset):
+            merge2(lists, index, min(index+step, length-1), min(index+offset-1, length-1))
+        step = offset
+
+def merge2(lists, head1, head2, tail2):
+    # 合并两个排好序的区间：[head1, tail1]与[head2, tail2]
+    tail1 = head2 - 1
+    start = head1
+    index = 0
+    tmp = [0] * (tail2-head1+1)
+    while head1 <= tail1 or head2 <= tail2:
+        if head1 > tail1:
+            tmp[index] = lists[head2]
+        elif head2 > tail2:
+            tmp[index] = lists[head1]
+        else:
+            if lists[head1] <= lists[head2]:
+                tmp[index] = lists[head1]
+            else:
+                tmp[index] = lists[head2]
+
+        if head1 <= tail1 and tmp[index] == lists[head1]:
+            head1 += 1
+        else:
+            head2 += 1
+        index += 1
+
+    for i in range(start, tail2 + 1):
+        lists[i] = tmp[i-start]
+
+# 快速排序 递归
+def quick_sort(lists, left, right):
+    if left >= right:
+        return lists
+    key = lists[left]
+    low = left
+    high = right
+
+    while left < right:
+        while left < right and lists[right] >= key:
+            right -= 1
+        lists[left] = lists[right]
+        while left < right and lists[left] <= key:
+            left += 1
+        lists[right] = lists[left]
+    lists[right] = key
+    quick_sort(lists, low, left - 1)
+    quick_sort(lists, left + 1, high)
+    return lists
+# 快速排序
+def quick_sort2(lists):
+    less = []
+    pivotList = []
+    more = []
+    # 递归出口
+    if len(lists) <= 1:
+        return lists
+    else:
+        # 第一个值为基准
+        pivot = lists[0]
+        for i in lists:
+            # 将比base小的值放到less里面
+            if i < pivot:
+                less.append(i)
+            # 将比base大的值放到More里面
+            elif i > pivot:
+                more.append(i)
+            else:
+                pivotList.append(i)
+        less = quick_sort2(less)
+        more = quick_sort2(more)
+        return less + pivotList + more
+
+# 快速排序非递归
 
 
 
@@ -181,11 +267,27 @@ if __name__ == "__main__":
     lists = [7, 13, 3, 1, 5, 10, 2, 20]
     print("bubble_sort")
     print(bubble_sort(lists))
+    lists = [7, 13, 3, 1, 5, 10, 2, 20]
     print("bubble_sort2")
     print(bubble_sort_flag(lists))
+    lists = [7, 13, 3, 1, 5, 10, 2, 20]
     print("selection sort")
     print(bubble_sort_flag(lists))
+    lists = [7, 13, 3, 1, 5, 10, 2, 20]
     print("insert sort")
     print(insert_sort2(lists))
+    lists = [7, 13, 3, 1, 5, 10, 2, 20]
+    print("shell sort")
+    print(shell_sort(lists))
+    lists = [7, 13, 3, 1, 5, 10, 2, 20]
+    print("merge sort")
+    print(merge_sort(lists))
+    lists = [7, 13, 3, 1, 5, 10, 2, 20]
+    print("merge sort2")
+    merge_sort2(lists)
+    print(lists)
+    lists = [7, 13, 3, 1, 5, 10, 2, 20]
+    print("quick sort")
+    print(quick_sort(lists, 0, len(lists)-1))
 
 
