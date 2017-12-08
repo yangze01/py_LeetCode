@@ -256,10 +256,33 @@ def quick_sort2(lists):
         less = quick_sort2(less)
         more = quick_sort2(more)
         return less + pivotList + more
+def adjust_heap(lists, i, size):
+    # print(1)
+    lchild = 2 * i + 1 # i的左孩子节点序号
+    rchild = 2 * i + 2 # i的右孩子节点序号
+    max = i
+    if i <= size/2:
+        if lchild < size and lists[lchild] > lists[max]:
+            max = lchild
+        if rchild < size and lists[rchild] > lists[max]:
+            max = rchild
+        if max != i:
+            lists[i], lists[max] = lists[max], lists[i]
+            adjust_heap(lists, max, size) # 避免调整之后以max为父节点的子树不是堆
 
-# 快速排序非递归
 
+def build_heap(lists, size):
 
+    for i in range(0, (int(size/2)))[::-1]:
+        adjust_heap(lists, i, size)
+
+def heap_sort(lists):
+    size = len(lists)
+    build_heap(lists, size)
+    for i in range(0, size)[::-1]:
+        lists[0], lists[i] = lists[i], lists[0]
+        adjust_heap(lists, 0, i)
+    return lists
 
 
 if __name__ == "__main__":
@@ -289,5 +312,7 @@ if __name__ == "__main__":
     lists = [7, 13, 3, 1, 5, 10, 2, 20]
     print("quick sort")
     print(quick_sort(lists, 0, len(lists)-1))
-
+    lists = [7, 13, 3, 1, 5, 10, 2, 20]
+    print("heap sort")
+    print(heap_sort(lists))
 

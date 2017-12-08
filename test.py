@@ -20,13 +20,21 @@ if __name__ == "__main__":
     # a = [1,1,2,2,5,6,7,7,9]
     # solution = Solution()
     # print(solution.removeDuplicates(a))
-    a = [1, 2, 3, 4, 5]
-    print(a.pop())
-    a.append(6)
+    # a = [1, 2, 3, 4, 5]
+    # print(a.pop())
+    # print(a)
+    # # print(a.pop)
+    # b = a.pop()
+    # print(b)
+    a = 3
+    b = a
+    b = 2
     print(a)
-    b = [1]
-    # b.pop()
-    # if b == []:
-    #     print(1)
-    # else:
-    #     print(2)
+    print(b)
+    c = [1, 2, 3]
+    d = c
+    d[1] = 5
+    print(d)
+    x = {'a': 1, 'b': 2, 'c': 3}
+    x['a'] = 2123
+    print(x)

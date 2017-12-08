@@ -98,13 +98,41 @@ def quickSort(lists, left, right):
     :param right:
     :return:
     """
-    if lists == [] or left < 0 or right <= 0 or left > right:
-        return
-    k = partition(lists, left, right)
-    if k > left:
+    if left < right:
+        k = partition(lists, left, right)
         quickSort(lists, left, k-1)
-    if k < right:
         quickSort(lists, k+1, right)
+    return lists
+
+def quickSort2(lists, left, right):
+    """
+        模拟栈实现非递归的快速排序
+    :param lists:
+    :param left:
+    :param right:
+    :return:
+    """
+    stack = list()
+    if left < right:
+        stack.append(right)
+        stack.append(left)
+        while len(stack) != 0:
+            # l = stack[-1]
+            # stack.pop()
+            # r = stack[-1]
+            # stack.pop()
+            l = stack.pop()
+            r = stack.pop()
+
+            index = partition(lists, l, r)
+            if l < index - 1:
+                stack.append(index - 1)
+                stack.append(l)
+            if r > index + 1:
+                stack.append(r)
+                stack.append(index + 1)
+    return lists
+
 
 
 def random_nums_generator(max_value = 100, total_nums = 20):
@@ -126,10 +154,17 @@ def random_nums_generator(max_value = 100, total_nums = 20):
     return num_list
 
 if __name__ == "__main__":
-    a = random_nums_generator()
-    print(a)
-    quickSort(a, 0, len(a)-1)
-    print(a)
+    for i in range(0, 100):
+        print("~~~~~~~~~~~~~~~~~~~~~~~~~~")
+        a = random_nums_generator()
+        print(a)
+        quickSort(a, 0, len(a)-1)
+        print(a)
+        print("~~~~~~~~~~~~~~~~~~~~~~~~~")
+        b = random_nums_generator()
+        print(b)
+        quickSort2(b, 0, len(b)-1)
+        print(b)
 
 
 
